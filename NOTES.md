@@ -20,6 +20,7 @@ The parent app for extraction is EcomX.
 - Client apps decide route gating through dashboard middleware.
 - Email provider admin is optional.
 - Existing apps with their own provider table should use an `EmailProviderResolver`.
+- Pending email logs can be processed by the bundled cPanel-friendly cron route.
 - EcomX business notification messages should live in the parent app through `MessageResolver`.
 
 ## Publish Tags
@@ -95,3 +96,5 @@ git remote add origin https://github.com/davsong01/notifications-system.git
 - Existing notification call sites can keep using an app compatibility wrapper if desired.
 - The package admin routes are auth-neutral; gate them with `dashboard.middleware`.
 - The bundled email provider admin can be disabled when the host app already owns provider management.
+- Apps without Supervisor should enable `cron.enabled` and call `/notifications-system/cron/{token}` every minute from cPanel.
+- For cron email delivery, send email notifications with `mail.log_only_priority` and keep `logging.mask_recipients` disabled.

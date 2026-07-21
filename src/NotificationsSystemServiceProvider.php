@@ -62,13 +62,18 @@ class NotificationsSystemServiceProvider extends ServiceProvider
 
     protected function registerRoutes(): void
     {
-        if (! config('david-oghi-notifications-system.dashboard.enabled', true)) {
-            return;
+        if (config('david-oghi-notifications-system.dashboard.enabled', true)) {
+            Route::middleware(config('david-oghi-notifications-system.dashboard.middleware', ['web']))
+                ->prefix(config('david-oghi-notifications-system.dashboard.route_prefix', 'notifications-system'))
+                ->name(config('david-oghi-notifications-system.dashboard.route_name', 'david-oghi-notifications-system.'))
+                ->group(__DIR__ . '/../routes/web.php');
         }
 
-        Route::middleware(config('david-oghi-notifications-system.dashboard.middleware', ['web']))
-            ->prefix(config('david-oghi-notifications-system.dashboard.route_prefix', 'notifications-system'))
-            ->name(config('david-oghi-notifications-system.dashboard.route_name', 'david-oghi-notifications-system.'))
-            ->group(__DIR__ . '/../routes/web.php');
+        if (config('david-oghi-notifications-system.cron.enabled', false)) {
+            Route::middleware(config('david-oghi-notifications-system.cron.middleware', ['web']))
+                ->prefix(config('david-oghi-notifications-system.cron.route_prefix', 'notifications-system'))
+                ->name(config('david-oghi-notifications-system.cron.route_name', 'david-oghi-notifications-system.'))
+                ->group(__DIR__ . '/../routes/cron.php');
+        }
     }
 }

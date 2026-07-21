@@ -118,6 +118,17 @@ return [
         'backoff' => [60, 300, 900],
     ],
 
+    'cron' => [
+        'enabled' => false,
+        'route_prefix' => 'notifications-system',
+        'route_name' => 'david-oghi-notifications-system.',
+        'middleware' => ['web'],
+        'token' => env('DAVID_OGHI_NOTIFICATIONS_CRON_TOKEN'),
+        'batch_size' => 25,
+        'hourly_rate' => 150,
+        'time_limit' => 300,
+    ],
+
     'logging' => [
         'enabled' => true,
         'store_content' => true,
