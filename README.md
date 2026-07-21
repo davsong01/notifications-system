@@ -59,7 +59,7 @@ php artisan vendor:publish --tag=david-oghi-notifications-system-migrations
 php artisan migrate
 ```
 
-If the host app already has `notifications`, `notification_logs`, or `email_providers` tables, the package migration will avoid recreating them and will add only missing package columns where needed.
+If the host app already has `notifications`, `notification_logs`, or `email_providers` tables, the package migration will avoid recreating them and will add only missing package columns where needed. When a payload includes `meta.school_id`, the package stores it on both `notifications.school_id` and `notification_logs.school_id` for tenant-aware filtering.
 
 ## Channels
 

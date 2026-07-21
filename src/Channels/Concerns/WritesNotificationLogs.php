@@ -16,6 +16,7 @@ trait WritesNotificationLogs
         $model = config('david-oghi-notifications-system.models.notification_log', NotificationLog::class);
 
         return $model::query()->create([
+            'school_id' => $payload->meta['school_id'] ?? null,
             'sender' => config('mail.from.name') ?: 'System',
             'provider_id' => $payload->providerId,
             'priority' => $payload->priority,

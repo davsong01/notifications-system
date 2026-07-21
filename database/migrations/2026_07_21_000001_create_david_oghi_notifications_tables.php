@@ -40,6 +40,7 @@ return new class extends Migration
         if (! Schema::hasTable($notificationLogs)) {
             Schema::create($notificationLogs, function (Blueprint $table): void {
                 $table->id();
+                $table->unsignedBigInteger('school_id')->nullable()->index();
                 $table->string('sender')->nullable();
                 $table->unsignedBigInteger('provider_id')->nullable()->index();
                 $table->integer('priority')->default(1)->index();
@@ -61,12 +62,17 @@ return new class extends Migration
                 if (! Schema::hasColumn($notificationLogs, 'meta')) {
                     $table->json('meta')->nullable()->after('attachments');
                 }
+
+                if (! Schema::hasColumn($notificationLogs, 'school_id')) {
+                    $table->unsignedBigInteger('school_id')->nullable()->index()->after('id');
+                }
             });
         }
 
         if (! Schema::hasTable($notifications)) {
             Schema::create($notifications, function (Blueprint $table): void {
                 $table->uuid('id')->primary();
+                $table->unsignedBigInteger('school_id')->nullable()->index();
                 $table->string('type', 191);
                 $table->string('notifiable_type', 191);
                 $table->unsignedBigInteger('notifiable_id');
@@ -77,6 +83,13 @@ return new class extends Migration
 
                 $table->index(['notifiable_type', 'notifiable_id'], 'notifications_notifiable_index');
                 $table->index(['notifiable_type', 'notifiable_id', 'created_at'], 'notifications_notifiable_created_index');
+                $table->index(['school_id', 'notifiable_type', 'notifiable_id', 'created_at'], 'notifications_school_notifiable_created_index');
+            });
+        } else {
+            Schema::table($notifications, function (Blueprint $table) use ($notifications): void {
+                if (! Schema::hasColumn($notifications, 'school_id')) {
+                    $table->unsignedBigInteger('school_id')->nullable()->index()->after('id');
+                }
             });
         }
     }

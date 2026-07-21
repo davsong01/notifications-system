@@ -20,6 +20,7 @@ class DatabaseChannel implements NotificationChannel
 
         $notification = $model::query()->create([
             'id' => (string) Str::uuid(),
+            'school_id' => $payload->meta['school_id'] ?? null,
             'type' => $payload->type,
             'notifiable_type' => $payload->notifiable::class,
             'notifiable_id' => $payload->notifiable->getKey(),
