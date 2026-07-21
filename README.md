@@ -4,11 +4,28 @@ A configurable Laravel notification package for database, email, SMS, WhatsApp, 
 
 ## Install
 
-```bash
-composer require david-oghi/notifications-system
+The package currently lives on GitHub, so client apps should register the repository before requiring it.
+
+```json
+{
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/davsong01/notifications-system.git"
+        }
+    ]
+}
 ```
 
-For local development from a parent app:
+Then install from `main`:
+
+```bash
+composer require david-oghi/notifications-system:dev-main
+```
+
+Use `type: git` instead of `type: vcs` if Composer tries to clone the repository over SSH. The HTTPS git repository avoids SSH host-key prompts on fresh servers.
+
+For local development from a parent app, a path repository can be used instead:
 
 ```json
 {
@@ -17,11 +34,20 @@ For local development from a parent app:
             "type": "path",
             "url": "packages/david-oghi/notifications-system",
             "options": {
-                "symlink": true
+                "symlink": true,
+                "versions": {
+                    "david-oghi/notifications-system": "dev-main"
+                }
             }
         }
     ]
 }
+```
+
+Then run:
+
+```bash
+composer require david-oghi/notifications-system:dev-main
 ```
 
 Publish config, views, and migrations when the host app wants to customize them:
@@ -32,6 +58,8 @@ php artisan vendor:publish --tag=david-oghi-notifications-system-views
 php artisan vendor:publish --tag=david-oghi-notifications-system-migrations
 php artisan migrate
 ```
+
+If the host app already has `notifications`, `notification_logs`, or `email_providers` tables, the package migration will avoid recreating them and will add only missing package columns where needed.
 
 ## Channels
 

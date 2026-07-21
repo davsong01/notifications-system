@@ -30,8 +30,68 @@ php artisan vendor:publish --tag=david-oghi-notifications-system-views
 php artisan vendor:publish --tag=david-oghi-notifications-system-migrations
 ```
 
+## GitHub Install
+
+The package is installed from GitHub until it is published to Packagist.
+
+Add this to the client app `composer.json`:
+
+```json
+{
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/davsong01/notifications-system.git"
+        }
+    ]
+}
+```
+
+Then run:
+
+```bash
+composer require david-oghi/notifications-system:dev-main
+```
+
+Use `type: git` so Composer clones the HTTPS URL directly. With `type: vcs`, Composer may resolve GitHub metadata and try to clone the repo through SSH, which can fail on new servers with host-key verification errors.
+
+## Local Path Install
+
+For parent-app development before or alongside GitHub install:
+
+```json
+{
+    "repositories": [
+        {
+            "type": "path",
+            "url": "packages/david-oghi/notifications-system",
+            "options": {
+                "symlink": true,
+                "versions": {
+                    "david-oghi/notifications-system": "dev-main"
+                }
+            }
+        }
+    ]
+}
+```
+
+Then run:
+
+```bash
+composer require david-oghi/notifications-system:dev-main
+```
+
 ## Git Remote
 
 ```bash
 git remote add origin https://github.com/davsong01/notifications-system.git
 ```
+
+## EcomX/Oakland Install Notes
+
+- EcomX keeps its business notification enums in the parent app.
+- EcomX should configure `message_resolver` to an app resolver, for example `App\Notifications\EcomxNotificationMessageResolver`.
+- Existing notification call sites can keep using an app compatibility wrapper if desired.
+- The package admin routes are auth-neutral; gate them with `dashboard.middleware`.
+- The bundled email provider admin can be disabled when the host app already owns provider management.
