@@ -24,6 +24,7 @@ class EmailChannel implements NotificationChannel
     public function send(NotificationPayload $payload): NotificationResult
     {
         $provider = $this->providers->find($payload->providerId);
+        $payload = $this->payloadWithResolvedProvider($payload, $provider);
         $log = $this->createLog($payload);
 
         if ($payload->priority !== (int) config('david-oghi-notifications-system.mail.send_immediately_priority', 1)) {
@@ -84,5 +85,27 @@ class EmailChannel implements NotificationChannel
                 'name' => $provider->fromName,
             ],
         ]);
+    }
+
+    protected function payloadWithResolvedProvider(NotificationPayload $payload, ?EmailProviderConfig $provider): NotificationPayload
+    {
+        if ($payload->providerId !== null || $provider?->id === null) {
+            return $payload;
+        }
+
+        return new NotificationPayload(
+            channel: $payload->channel,
+            type: $payload->type,
+            subject: $payload->subject,
+            preamble: $payload->preamble,
+            content: $payload->content,
+            attachments: $payload->attachments,
+            meta: $payload->meta,
+            priority: $payload->priority,
+            recipient: $payload->recipient,
+            recipientName: $payload->recipientName,
+            providerId: $provider->id,
+            notifiable: $payload->notifiable,
+        );
     }
 }
