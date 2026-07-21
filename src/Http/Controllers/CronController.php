@@ -12,7 +12,7 @@ class CronController extends Controller
     {
         $configuredToken = config('david-oghi-notifications-system.cron.token');
 
-        if ($configuredToken && ! hash_equals((string) $configuredToken, (string) ($token ?: $request->query('token')))) {
+        if (! $configuredToken || ! hash_equals((string) $configuredToken, (string) ($token ?: $request->query('token')))) {
             abort(403);
         }
 

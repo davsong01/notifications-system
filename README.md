@@ -127,7 +127,7 @@ Then point cPanel cron at:
 https://your-domain.test/notifications-system/cron/YOUR_TOKEN
 ```
 
-The route sends pending `notification_logs` where `channel = email`, `status = 0`, `sent_at` is empty, and `errors` is empty. Failed rows keep `status = 0` and store the error so an admin can inspect or resend them. Keep `logging.mask_recipients` disabled when using cron delivery, because the stored recipient must remain sendable.
+The token is required; if it is not configured, the route returns `403`. The route sends pending `notification_logs` where `channel = email`, `status = 0`, `sent_at` is empty, and `errors` is empty. Failed rows keep `status = 0` and store the error so an admin can inspect or resend them. Keep `logging.mask_recipients` disabled when using cron delivery, because the stored recipient must remain sendable.
 
 ## Email Providers
 

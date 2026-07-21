@@ -96,5 +96,5 @@ git remote add origin https://github.com/davsong01/notifications-system.git
 - Existing notification call sites can keep using an app compatibility wrapper if desired.
 - The package admin routes are auth-neutral; gate them with `dashboard.middleware`.
 - The bundled email provider admin can be disabled when the host app already owns provider management.
-- Apps without Supervisor should enable `cron.enabled` and call `/notifications-system/cron/{token}` every minute from cPanel.
+- Apps without Supervisor should enable `cron.enabled`, configure `DAVID_OGHI_NOTIFICATIONS_CRON_TOKEN`, and call `/notifications-system/cron/{token}` every minute from cPanel.
 - For cron email delivery, send email notifications with `mail.log_only_priority` and keep `logging.mask_recipients` disabled.
