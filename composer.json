@@ -1,0 +1,32 @@
+{
+    "name": "david-oghi/notifications-system",
+    "description": "Configurable Laravel notification delivery, logging, and optional email provider administration.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "DavidOghi\\NotificationsSystem\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "DavidOghi\\NotificationsSystem\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^8.2",
+        "illuminate/contracts": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/mail": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/support": "^10.0|^11.0|^12.0|^13.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DavidOghi\\NotificationsSystem\\NotificationsSystemServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
